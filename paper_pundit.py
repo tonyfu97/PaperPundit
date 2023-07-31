@@ -40,6 +40,7 @@ def extract_text_from_pdf(pdf_path):
     return text
 
 def calculate_approximate_cost(text_string):
+    # WARNING: This is an approximation. The actual cost may be higher.
     words = text_string.split()
     word_count = len(words)
     # Approximation that 1 token is about 0.75 words, according to OpenAI (https://openai.com/pricing)
@@ -72,12 +73,12 @@ def get_total_summary(file_text, output_file_name):
         messages = []
         if section_i == 0:
             messages = [
-            {"role": "system", "content": "ChatGPT, your task is to generate a detailed summary of the provided section from a research paper. Retain as much information as possible, especially the methods and results, as this summary will be used for subsequent Q&A discussions. This is the first section. You need to remember to state the title of the paper, the authors, and the abstract."},
+            {"role": "system", "content": "ChatGPT, your task is to generate a detailed summary of the provided section from a research paper. Retain as much information as possible, especially the methods and results, as this summary will be used for subsequent Q&A discussions. This is the first section. You need to remember to state the title of the paper, the authors, the abstract, and summarize the other section(s)."},
             {"role": "user", "content": section}
             ]
         else:
             messages = [
-                {"role": "system", "content": "ChatGPT, your task is to generate a detailed summary of the provided section from a research paper. Retain as much information as possible, especially the methods and results, as this summary will be used for subsequent Q&A discussions. If the provided section is the Reference section, simply state 'This is the Reference section.'"},
+                {"role": "system", "content": "ChatGPT, your task is to generate a detailed summary of the provided section from a research paper. Retain as much information as possible, especially the methods and results. This summary will be used for subsequent Q&A discussions, so completeness is important. If the provided section is the Reference section, simply state 'This is the Reference section.'"},
                 {"role": "user", "content": section}
             ]
         response = openai.ChatCompletion.create(
@@ -131,7 +132,6 @@ def main(pdf_path, output_file_name):
          # Delete the oldest user-assistant message pair but keep the total_summary
         while len(messages) > 2 * CONVERSATION_MEMORY + 3:
             del messages[2:4]
-            print("Old messages deleted.")
 
         print("ChatGPT:\n" + answer + "\n")
         
