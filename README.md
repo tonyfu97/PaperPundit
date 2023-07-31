@@ -15,7 +15,7 @@ Ensure you have the following Python libraries installed:
 You can install these using pip:
 
 ```shell
-pip install os-sys openai PyPDF2 tqdm python-dotenv
+pip install openai PyPDF2 tqdm python-dotenv
 ```
 
 ### API Key
@@ -40,8 +40,6 @@ There are several constants at the top of the script that you can modify to suit
 
 - `WORDS_PER_SECTION`: This is the number of words per section that the script will attempt to summarize at once.
 - `SECTION_OVERLAP`: This is the number of words of overlap between consecutive sections.
-- `PRICE_PER_THOUSAND_TOKENS`: This is the cost per thousand tokens according to OpenAI's pricing. Adjust this as necessary based on OpenAI's current pricing.
-- `MODEL`: This is the model from OpenAI that is used. By default, it uses gpt-3.5-turbo-16k.
 - `CONVERSATION_MEMORY`: This is the number of previous messages (user + assistant pairs) kept as context for the model.
 
 ## Warning
